@@ -1,7 +1,7 @@
 import { Route }   from 'react-router';
 import React       from 'react';
-import CoreLayout  from 'layouts/CoreLayout';
-import HomeView    from 'views/HomeView';
+import CoreLayout  from 'components/CoreLayout';
+import HomeView    from 'components/HomeView';
 
 export default (
   <Route component={CoreLayout}>

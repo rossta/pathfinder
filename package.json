@@ -16,7 +16,7 @@
     "test:unit": "node ./node_modules/karma/bin/karma start",
     "deploy": "npm run test:unit && npm run compile"
   },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
+  "author": "Ross Kaffenberger <rosskaff@gmail.com> (https://rossta.net)",
   "license": "MIT",
   "dependencies": {
     "babel": "^5.8.23",

@@ -84,10 +84,7 @@ config.set('utils_paths', paths);
 config.set('utils_aliases', [
   'actions',
   'components',
-  'constants',
-  'containers',
   'dispatchers',
-  'layouts',
   'models',
   'reducers',
   'routes',
@@ -95,7 +92,6 @@ config.set('utils_aliases', [
   'stores',
   'styles',
   'utils',
-  'views'
 ].reduce((acc, x) => ((acc[x] = paths.src(x)) && acc), {}));
 
 export default config;
