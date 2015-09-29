@@ -2,8 +2,21 @@ import React from 'react';
 import {List} from 'immutable';
 import {connect} from 'react-redux';
 
+import 'styles/grid.scss';
+
+function fillArray(n, callback) {
+  const arr = Array.apply(null, Array(n));
+  return arr.map(callback);
+}
+
+function emptyGrid(rows, cols) {
+  return List(fillArray(rows, () => List(fillArray(cols, () => 0))));
+}
+
+const initialGrid = emptyGrid(21, 35);
+
 const mapStateToProps = (state) => ({
-  grid: state.get('grid')
+  grid: state.get('grid', initialGrid)
 });
 
 export default class Grid extends React.Component {
@@ -17,15 +30,15 @@ export default class Grid extends React.Component {
 
   render () {
     const grid = this.props.grid;
-    console.log('grid', grid);
+
     return (
       <div className="grid-container">
         {grid.map((row, i) =>
-                       <div className="row">
-                         {row.map((col, j) =>
-                                  <div className="col">[{i},{j}]</div>
-                                 )}
-                       </div>
+         <div className="row" key={`row-${i}`}>
+           {row.map((col, j) =>
+            <div className="col" key={`col-${j}`}></div>
+           )}
+         </div>
         )}
       </div>
     );
