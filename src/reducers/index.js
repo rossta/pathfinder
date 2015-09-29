@@ -15,26 +15,6 @@ export function animate (state, action) {
   }
 }
 
-// import counter from './counter';
-// export default function counter(state = 0, action) {
-//   switch (action.type) {
-//   case 'INCREMENT':
-//     return state + 1;
-//   case 'DECREMENT':
-//     return state - 1;
-//   default:
-//     return state;
-//   }
-// }
-// export default combineImmutableReducers(reducers) {
-//   // shallow converts plain-object to map
-//   return Map(combineReducers({
-//     animate
-//   }));
-// }
-// export default combineReducers({
-//   animate
-// });
 export default function reducer(state = Map(), action) {
   switch (action.type) {
   case 'START_ANIMATION':

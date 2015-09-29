@@ -15,8 +15,6 @@
       "no-else-return": 0,
       "space-before-function-paren": [0, "always"],
       "react/jsx-quotes": [0, "single"],
-      "new-cap": [2, {
-        "capIsNewExceptions": ["Immutable"]
-      }]
+      "new-cap": 0
     }
 }

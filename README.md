@@ -1,5 +1,10 @@
+Based off [davezuko/react-redux-starter-kit](https://github.com/davezuko/react-redux-starter-kit)
+
+---
+
 React Redux Starter Kit
 =======================
+
 [![Build Status](https://travis-ci.org/davezuko/react-redux-starter-kit.svg?branch=no-server)](https://travis-ci.org/davezuko/react-redux-starter-kit?branch=no-server)
 [![dependencies](https://david-dm.org/davezuko/react-redux-starter-kit.svg)](https://david-dm.org/davezuko/react-redux-starter-kit)
 
