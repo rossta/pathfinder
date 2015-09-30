@@ -1,27 +1,29 @@
-import React from 'react';
+import React from 'react/addons';
 import classNames from 'classnames';
 
-export default class Cell extends React.Component {
-  static propTypes = {
+export default React.createClass({
+  propTypes: {
     role: React.PropTypes.number,
-    coordinates: React.PropTypes.array,
+    row: React.PropTypes.number,
+    col: React.PropTypes.number,
     toggleCell:  React.PropTypes.func
-  }
+  },
 
-  constructor () {
-    super();
-  }
+  mixins: [React.addons.PureRenderMixin],
 
   onClick (e) {
-    this.props.toggleCell(this.props.coordinates);
-  }
+    this.props.toggleCell(this.coordinates());
+  },
+
+  coordinates () {
+    return [this.props.row, this.props.col];
+  },
 
   render () {
-    const {coordinates, role} = this.props;
-    const [row, col] = coordinates;
-    const classes = classNames('col', 'cell', `cell-${role}`, `col-${col}`, `row-${row}`);
+    const {role, col, row} = this.props;
+    const classes = classNames('cell', `cell-role-${role}`, `col-${col}`, `row-${row}`);
     return (
-      <div className={classes} onClick={::this.onClick}></div>
+      <div className={classes} onClick={this.onClick}></div>
     );
   }
-}
+});

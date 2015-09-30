@@ -1,32 +1,20 @@
-import React from 'react';
-import {List} from 'immutable';
+import React from 'react/addons';
+import classNames from 'classnames';
 
-import Cell from 'components/Cell';
+export default React.createClass({
+  propTypes: {
+    index: React.PropTypes.number,
+    children: React.PropTypes.array
+  },
 
-export default class Row extends React.Component {
-  static propTypes = {
-    cells: React.PropTypes.instanceOf(List),
-    number: React.PropTypes.number,
-    toggleCell:  React.PropTypes.func
-  }
-
-  constructor () {
-    super();
-  }
+  mixins: [React.addons.PureRenderMixin],
 
   render () {
-    const {number, cells} = this.props;
+    const classes = classNames('row', `row-${this.props.index}`);
     return (
-      <div className="row">
-        {cells.map((role, col) => {
-          const coordinates = [number, col];
-          return (<Cell
-            toggleCell={this.props.toggleCell}
-            coordinates={coordinates}
-            role={role}
-            key={`col-${col}`} />);
-        })}
+      <div className={classes}>
+        {this.props.children}
       </div>
     );
   }
-}
+});

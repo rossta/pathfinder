@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 import * as actionCreators from '../action-creators';
 import Row from 'components/Row';
+import Cell from 'components/Cell';
 
 import 'styles/grid.scss';
 
@@ -22,12 +23,25 @@ export default class Grid extends React.Component {
   }
 
   render () {
-    const grid = this.props.grid;
+    const {grid, toggleCell} = this.props;
 
     return (
       <div className="grid-container">
-        {grid.map((cells, i) => {
-          return <Row toggleCell={this.props.toggleCell} number={i} cells={cells} key={`row-${i}`} />;
+        {grid.map((cells, row) => {
+          return (
+            <Row toggleCell={this.props.toggleCell} index={row} key={`row-${row}`}>
+              {cells.map((role, col) => {
+                return (
+                  <Cell
+                    toggleCell={toggleCell}
+                    col={col}
+                    row={row}
+                    role={role}
+                    key={`cell-${row}-${col}`} />
+                );
+              })}
+            </Row>
+          );
         })}
       </div>
     );
