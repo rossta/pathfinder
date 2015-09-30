@@ -5,13 +5,18 @@
   float: left;
 }
 
-.cell-role-0 {
+.cell-role-empty {
   background-color: ghostwhite;
 }
 
-.cell-role-1 {
+.cell-role-wall {
   background-color: gainsboro;
 }
+
+.cell-role-start {
+  background-color: red;
+}
+
 .row {
   clear: left;
 }

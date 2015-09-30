@@ -17,8 +17,9 @@ export function animate (state, action) {
 
 export default function toggleCell(state, action) {
   const [row, col] = action.coordinates;
+  const [role1, role2] = action.roles;
   const role = state.getIn(['grid', row, col]);
-  return state.setIn(['grid', row, col], (role === 0 ? 1 : 0));
+  return state.setIn(['grid', row, col], (role === role1 ? role2 : role1));
 }
 
 export default function reducer(state = Map(), action) {

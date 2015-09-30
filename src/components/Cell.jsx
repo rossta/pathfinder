@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 export default React.createClass({
   propTypes: {
-    role: React.PropTypes.number,
+    role: React.PropTypes.string,
     row: React.PropTypes.number,
     col: React.PropTypes.number,
     toggleCell:  React.PropTypes.func
@@ -12,7 +12,7 @@ export default React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   onClick (e) {
-    this.props.toggleCell(this.coordinates());
+    this.props.toggleCell(this.coordinates(), ['empty', 'wall']);
   },
 
   coordinates () {

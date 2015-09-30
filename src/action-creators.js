@@ -10,9 +10,10 @@ export function startAnimation() {
   };
 }
 
-export function toggleCell(coordinates) {
+export function toggleCell(coordinates, roles) {
   return {
     type : 'TOGGLE_CELL',
-    coordinates
+    coordinates,
+    roles
   };
 }
