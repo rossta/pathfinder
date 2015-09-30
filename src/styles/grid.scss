@@ -3,9 +3,15 @@
   height: 20px;
   border: 1px solid white;
   float: left;
-  background-color: #CCC;
 }
 
+.cell-0 {
+  background-color: ghostwhite;
+}
+
+.cell-1 {
+  background-color: gainsboro;
+}
 .row {
   clear: left;
 }

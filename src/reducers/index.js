@@ -15,11 +15,19 @@ export function animate (state, action) {
   }
 }
 
+export default function toggleCell(state, action) {
+  const [row, col] = action.coordinates;
+  const role = state.getIn(['grid', row, col]);
+  return state.setIn(['grid', row, col], (role === 0 ? 1 : 0));
+}
+
 export default function reducer(state = Map(), action) {
   switch (action.type) {
   case 'START_ANIMATION':
   case 'STOP_ANIMATION':
     return animate(state, action);
+  case 'TOGGLE_CELL':
+    return toggleCell(state, action);
   default:
     return state;
   }

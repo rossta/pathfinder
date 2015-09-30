@@ -9,3 +9,10 @@ export function startAnimation() {
     type : 'START_ANIMATION'
   };
 }
+
+export function toggleCell(coordinates) {
+  return {
+    type : 'TOGGLE_CELL',
+    coordinates
+  };
+}

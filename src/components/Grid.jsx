@@ -2,26 +2,19 @@ import React from 'react';
 import {List} from 'immutable';
 import {connect} from 'react-redux';
 
+import * as actionCreators from '../action-creators';
+import Row from 'components/Row';
+
 import 'styles/grid.scss';
 
-function fillArray(n, callback) {
-  const arr = Array.apply(null, Array(n));
-  return arr.map(callback);
-}
-
-function emptyGrid(rows, cols) {
-  return List(fillArray(rows, () => List(fillArray(cols, () => 0))));
-}
-
-const initialGrid = emptyGrid(21, 35);
-
 const mapStateToProps = (state) => ({
-  grid: state.get('grid', initialGrid)
+  grid: state.get('grid')
 });
 
 export default class Grid extends React.Component {
   static propTypes = {
-    grid: React.PropTypes.instanceOf(List)
+    grid: React.PropTypes.instanceOf(List),
+    toggleCell:  React.PropTypes.func
   }
 
   constructor () {
@@ -33,19 +26,16 @@ export default class Grid extends React.Component {
 
     return (
       <div className="grid-container">
-        {grid.map((row, i) =>
-         <div className="row" key={`row-${i}`}>
-           {row.map((col, j) =>
-            <div className="col" key={`col-${j}`}></div>
-           )}
-         </div>
-        )}
+        {grid.map((cells, i) => {
+          return <Row toggleCell={this.props.toggleCell} number={i} cells={cells} key={`row-${i}`} />;
+        })}
       </div>
     );
   }
 }
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  actionCreators
 )(Grid);
 
