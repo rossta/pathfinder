@@ -4,9 +4,10 @@ export function stopAnimation() {
   };
 }
 
-export function startAnimation() {
+export function startAnimation(interval) {
   return {
-    type : 'START_ANIMATION'
+    type : 'START_ANIMATION',
+    interval
   };
 }
 

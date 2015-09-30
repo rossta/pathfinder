@@ -4,7 +4,7 @@ import classNames from 'classnames';
 export default React.createClass({
   propTypes: {
     index: React.PropTypes.number,
-    children: React.PropTypes.array
+    children: React.PropTypes.object
   },
 
   mixins: [React.addons.PureRenderMixin],

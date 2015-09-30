@@ -1,13 +1,20 @@
-import { compose, createStore } from 'redux';
+import { compose, createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import { devTools } from 'redux-devtools';
 import rootReducer from 'reducers';
 
+import {logger} from 'middleware';
+
 let createStoreWithMiddleware;
+const middleware = [logger, thunkMiddleware];
 
 if (__DEBUG__) {
-  createStoreWithMiddleware = compose(devTools())(createStore);
+  createStoreWithMiddleware = compose(
+    applyMiddleware(...middleware),
+    devTools()
+  )(createStore);
 } else {
-  createStoreWithMiddleware = createStore;
+  createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 }
 
 export default function configureStore (initialState) {
