@@ -1,27 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {startAnimation, stopAnimation} from '../action-creators';
+import { animate } from '../action-creators';
 
 import Grid from 'components/Grid';
 
 const mapStateToProps = (state) => ({
-  animating: state.getIn(['animate', 'animating'])
+  interval: state.getIn(['animate', 'interval'])
 });
-
-function animate() {
-  return function (dispatch, getState) {
-    let interval = getState().getIn(['animate', 'animating']);
-    if (interval) {
-      clearInterval(interval);
-      dispatch(stopAnimation());
-    } else {
-      const interval = setInterval(function() {
-        console.log('step');
-      }, 1000);
-      dispatch(startAnimation(interval));
-    }
-  }
-}
 
 export class AnimationContainer extends React.Component {
   static propTypes = {

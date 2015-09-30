@@ -7,9 +7,9 @@ const STOP_ANIMATION  = 'STOP_ANIMATION';
 export function animate (state, action) {
   switch (action.type) {
   case START_ANIMATION:
-    return state.setIn(['animate', 'animating'], action.interval);
+    return state.setIn(['animate', 'interval'], action.interval);
   case STOP_ANIMATION:
-    return state.setIn(['animate', 'animating'], false);
+    return state.setIn(['animate', 'interval'], false);
   default:
     return state;
   }
