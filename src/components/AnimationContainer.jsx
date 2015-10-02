@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { animate } from '../action-creators';
 
-import Grid from 'components/Grid';
-
 const mapStateToProps = (state) => ({
   interval: state.getIn(['animate', 'interval'])
 });
@@ -11,7 +9,8 @@ const mapStateToProps = (state) => ({
 export class AnimationContainer extends React.Component {
   static propTypes = {
     dispatch: React.PropTypes.func,
-    interval: React.PropTypes.number
+    interval: React.PropTypes.number,
+    children: React.PropTypes.element
   }
 
   constructor () {
@@ -34,8 +33,8 @@ export class AnimationContainer extends React.Component {
 
   render () {
     return (
-      <div>
-        <Grid />
+      <div className="animation">
+        {this.props.children}
         <button className='btn btn-default'
           onClick={::this.onClickButton}>
           {this.buttonText()}

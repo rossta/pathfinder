@@ -30,13 +30,13 @@ export default class Grid extends React.Component {
         {grid.map((cells, row) => {
           return (
             <Row toggleCell={this.props.toggleCell} index={row} key={`row-${row}`}>
-              {cells.map((role, col) => {
+              {cells.map((data, col) => {
                 return (
                   <Cell
                     toggleCell={toggleCell}
                     col={col}
                     row={row}
-                    role={role}
+                    data={data}
                     key={`cell-${row}-${col}`} />
                 );
               })}

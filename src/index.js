@@ -5,9 +5,12 @@ import configureStore from './stores';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 import initialState from './stores/initial-state';
+import {resetAnimation} from './action-creators';
 
 const target = document.getElementById('root');
 const store  = configureStore(initialState);
+
+store.dispatch(resetAnimation());
 
 const node = <Root routerHistory={createBrowserHistory()} store={store}/>;
 ReactDOM.render(node, target);

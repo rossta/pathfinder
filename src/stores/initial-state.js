@@ -9,7 +9,7 @@ function fillArray(n, callback) {
 }
 
 function emptyGrid(rows, cols) {
-  return List(fillArray(rows, () => List(fillArray(cols, () => 'empty'))));
+  return List(fillArray(rows, () => List(fillArray(cols, () => Map({ role: 'empty' })))));
 }
 
 function getRandomInt(min, max) {
@@ -18,7 +18,7 @@ function getRandomInt(min, max) {
 
 const startCoordinates = List([getRandomInt(0, ROWS), getRandomInt(0, COLS)]);
 
-const grid = emptyGrid(ROWS, COLS).setIn(startCoordinates.toArray(), 'start');
+const grid = emptyGrid(ROWS, COLS).setIn(startCoordinates, Map({ role: 'start' }));
 
 export default Map({
   grid,
