@@ -23,7 +23,8 @@ export default React.createClass({
     const {data, col, row} = this.props;
     const role = data.get('role');
     const classes = classNames('cell', `cell-role-${role}`, `col-${col}`, `row-${row}`, {
-      'cell-frontier': data.has('frontier')
+      'cell-frontier': data.has('frontier'),
+      'cell-visited': data.has('visited')
     });
     return (
       <div className={classes} onClick={this.onClick}></div>
