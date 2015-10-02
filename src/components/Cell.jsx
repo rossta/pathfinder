@@ -1,9 +1,11 @@
 import React from 'react/addons';
+import {List} from 'immutable';
 import classNames from 'classnames';
 
 export default React.createClass({
   propTypes: {
-    data: React.PropTypes.object,
+    frontier: React.PropTypes.instanceOf(List),
+    visited: React.PropTypes.bool,
     row: React.PropTypes.number,
     col: React.PropTypes.number,
     toggleCell:  React.PropTypes.func
@@ -20,11 +22,11 @@ export default React.createClass({
   },
 
   render () {
-    const {data, col, row} = this.props;
-    const role = data.get('role');
+    const {col, row, frontier, visited, role} = this.props;
+    // console.log("rendering", col, row);
     const classes = classNames('cell', `cell-role-${role}`, `col-${col}`, `row-${row}`, {
-      'cell-frontier': data.has('frontier'),
-      'cell-visited': data.has('visited')
+      'cell-frontier': !!frontier,
+      'cell-visited': !!visited
     });
     return (
       <div className={classes} onClick={this.onClick}></div>

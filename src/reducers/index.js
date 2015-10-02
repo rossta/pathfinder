@@ -32,33 +32,41 @@ export function stepAnimationForward (state, action) {
     let tail, next;
     tail = head;
     next = state.getIn(['grid', ...tail, 'frontier']);
+
+    console.log("frontier");
+    console.log("head", head.toJS());
+
     while (next !== '@@TAIL') {
       tail = next;
+      console.log("next", tail.toJS());
       next = state.getIn(['grid', ...tail, 'frontier']);
     }
-    tail = next;
+    console.log("tail", tail.toJS());
 
     let [row,col] = head;
-    neighbors.push([row-1, col]);
-    neighbors.push([row, col-1]);
-    neighbors.push([row+1, col]);
-    neighbors.push([row, col+1]);
+    neighbors.push(List([row-1, col]));
+    neighbors.push(List([row, col-1]));
+    neighbors.push(List([row+1, col]));
+    neighbors.push(List([row, col+1]));
 
     neighbors.filter((coord) => {
-      let cell = grid.getIn(coord);
       let [row,col] = coord;
+      return (row < ROWS && row >= 0 && col < COLS && col >= 0);
+    }).filter((coord) => {
+      let cell = grid.getIn(coord);
       return cell.get('role') === 'empty' &&
-        (row < ROWS && row >= 0 && col < COLS && col >= 0) &&
-        !(cell.getIn(['data', 'frontier']) || cell.getIn(['data', 'visited']));
+        !cell.get('frontier') &&
+        !cell.get('visited');
     }).forEach((neigh) => {
       state = state.setIn(['grid', ...tail, 'frontier'], neigh);
       state = state.setIn(['grid', ...neigh, 'frontier'], '@@TAIL');
-      tail = neigh;
+      tail  = neigh;
+      console.log("frontier", neigh.toJS());
     });
 
     next = state.getIn(['grid', ...head, 'frontier']);
     state = state.setIn(['grid', ...head, 'visited'], true);
-    state = state.set('frontier', state.getIn(['grid', ...next, 'frontier']));
+    state = state.set('frontier', next);
   }
   return state;
 }
@@ -72,7 +80,7 @@ export default function reducer (state = Map(), action) {
   case 'STOP_ANIMATION':
     return stopAnimation(state, action);
   case 'STEP_ANIMATION_FORWARD':
-    return stepAnimationForward(state, action);
+    return state;
   case 'TOGGLE_CELL':
     return toggleCell(state, action);
   default:

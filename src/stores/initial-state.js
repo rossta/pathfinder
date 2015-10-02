@@ -17,6 +17,7 @@ function getRandomInt(min, max) {
 }
 
 const startCoordinates = List([getRandomInt(0, ROWS), getRandomInt(0, COLS)]);
+// const startCoordinates = List([1, 34]);
 
 const grid = emptyGrid(ROWS, COLS).setIn(startCoordinates, Map({ role: 'start' }));
 

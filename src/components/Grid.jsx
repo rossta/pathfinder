@@ -36,7 +36,9 @@ export default class Grid extends React.Component {
                     toggleCell={toggleCell}
                     col={col}
                     row={row}
-                    data={data}
+                    role={data.get('role')}
+                    frontier={data.get('frontier')}
+                    visited={data.get('visited')}
                     key={`cell-${row}-${col}`} />
                 );
               })}

@@ -30,9 +30,9 @@ export function animate() {
       clearInterval(interval);
       dispatch(stopAnimation());
     } else {
-      // interval = setInterval(function dispatchStep () {
-      //   dispatch(stepAnimationForward());
-      // }, 1000);
+      interval = setInterval(function dispatchStep () {
+        dispatch(stepAnimationForward());
+      }, 100);
       dispatch(startAnimation(interval));
       dispatch(stepAnimationForward());
     }
