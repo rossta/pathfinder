@@ -19,55 +19,6 @@ export function toggleCell (state, action) {
 }
 
 export function resetAnimation(state, action) {
-  const start = state.get('startCoordinates');
-  return stopAnimation(state, action).set('frontier', start).setIn(['grid', ...start, 'frontier'], '@@TAIL');
-}
-
-export function stepAnimationForwardGrid (state, action) {
-  const head = state.get('frontier');
-  const grid = state.get('grid');
-
-  if (grid.getIn(head)) {
-    let neighbors = [];
-    let tail, next;
-    tail = head;
-    next = state.getIn(['grid', ...tail, 'frontier']);
-
-    console.log("frontier");
-    console.log("head", head.toJS());
-
-    while (next !== '@@TAIL') {
-      tail = next;
-      console.log("next", tail.toJS());
-      next = state.getIn(['grid', ...tail, 'frontier']);
-    }
-    console.log("tail", tail.toJS());
-
-    let [row,col] = head;
-    neighbors.push(List([row-1, col]));
-    neighbors.push(List([row, col-1]));
-    neighbors.push(List([row+1, col]));
-    neighbors.push(List([row, col+1]));
-
-    neighbors.filter((coord) => {
-      let [row,col] = coord;
-      return (row < ROWS && row >= 0 && col < COLS && col >= 0);
-    }).filter((coord) => {
-      let cell = grid.getIn(coord);
-      return cell.get('role') === 'empty' &&
-        !cell.get('frontier') &&
-        !cell.get('visited');
-    }).forEach((neigh) => {
-      state = state.setIn(['grid', ...tail, 'frontier'], neigh);
-      state = state.setIn(['grid', ...neigh, 'frontier'], '@@TAIL');
-      tail  = neigh;
-      console.log("frontier", neigh.toJS());
-    });
-
-    next = state.getIn(['grid', ...head, 'frontier']);
-    state = state.setIn(['grid', ...head, 'visited'], true);
-    state = state.set('frontier', next);
-  }
   return state;
 }
 
@@ -87,7 +38,7 @@ function neighbors (coords) {
 
 export function stepAnimationForward (state, action) {
   let current = state.get('current');
-  let frontier = state.get('frontierX');
+  let frontier = state.get('frontier');
   let visited = state.get('visited');
 
   if (!current) {
@@ -105,7 +56,7 @@ export function stepAnimationForward (state, action) {
   }
 
   return state.merge({
-    frontierX: frontier,
+    frontier: frontier,
     current,
     visited
   });

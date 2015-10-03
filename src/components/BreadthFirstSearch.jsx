@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const mapStateToProps = (state) => ({
-  frontier: state.get('frontier')
-});
+const mapStateToProps = (state) => ({});
 
 export class BreadthFirstSearch extends React.Component {
   static propTypes = {

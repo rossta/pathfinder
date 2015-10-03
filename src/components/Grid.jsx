@@ -13,7 +13,7 @@ const mapStateToProps = (state) => ({
   grid:     state.get('grid'),
   start:    state.get('start'),
   visited:  state.get('visited'),
-  frontierX: state.get('frontierX'),
+  frontier: state.get('frontier'),
   walls:    state.get('walls'),
   start:    state.get('start')
 });
@@ -24,7 +24,7 @@ export default class Grid extends React.Component {
     toggleCell:  React.PropTypes.func,
     start:    React.PropTypes.instanceOf(List),
     visited:  React.PropTypes.instanceOf(OrderedSet),
-    frontierX: React.PropTypes.instanceOf(OrderedSet),
+    frontier: React.PropTypes.instanceOf(OrderedSet),
     walls:    React.PropTypes.instanceOf(OrderedSet)
   }
 
@@ -44,7 +44,7 @@ export default class Grid extends React.Component {
   }
 
   render () {
-    const {grid, toggleCell, visited, frontierX} = this.props;
+    const {grid, toggleCell, visited, frontier} = this.props;
 
     return (
       <div className="grid-container">
@@ -56,7 +56,7 @@ export default class Grid extends React.Component {
               col={col}
               row={row}
               role={this.cellRole(coords)}
-              frontier={frontierX.includes(coords)}
+              frontier={frontier.includes(coords)}
               visited={visited.includes(coords)}
               key={`cell-${row}-${col}`} />
           );
