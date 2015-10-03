@@ -1,6 +1,6 @@
 .cell {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border: 1px solid white;
   float: left;
 }
@@ -25,6 +25,6 @@
   background-color: red;
 }
 
-.row {
+.row, .col-0 {
   clear: left;
 }

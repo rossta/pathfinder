@@ -1,4 +1,4 @@
-import {Map,List} from 'immutable';
+import {Map, List, OrderedSet} from 'immutable';
 // import { combineReducers } from 'redux';
 
 import {ROWS, COLS} from 'stores/initial-state';
@@ -23,7 +23,7 @@ export function resetAnimation(state, action) {
   return stopAnimation(state, action).set('frontier', start).setIn(['grid', ...start, 'frontier'], '@@TAIL');
 }
 
-export function stepAnimationForward (state, action) {
+export function stepAnimationForwardGrid (state, action) {
   const head = state.get('frontier');
   const grid = state.get('grid');
 
@@ -71,6 +71,46 @@ export function stepAnimationForward (state, action) {
   return state;
 }
 
+function neighbors (coords) {
+  let [row,col] = coords;
+  let neighbors = [];
+  neighbors.push(List([row-1, col]));
+  neighbors.push(List([row, col-1]));
+  neighbors.push(List([row+1, col]));
+  neighbors.push(List([row, col+1]));
+
+  return OrderedSet(neighbors.filter((coord) => {
+    let [row,col] = coord;
+    return (row < ROWS && row >= 0 && col < COLS && col >= 0);
+  }));
+}
+
+export function stepAnimationForward (state, action) {
+  let current = state.get('current');
+  let frontier = state.get('frontierX');
+  let visited = state.get('visited');
+
+  if (!current) {
+    const start = state.get('start');
+    frontier = frontier.add(start);
+    visited = visited.add(start);
+  }
+
+  if (!frontier.isEmpty()) {
+    current = frontier.first();
+    frontier = frontier.remove(current).merge(neighbors(current).filter((coords) => {
+      return !visited.includes(coords);
+    }));
+    visited = visited.add(current);
+  }
+
+  return state.merge({
+    frontierX: frontier,
+    current,
+    visited
+  });
+}
+
 export default function reducer (state = Map(), action) {
   switch (action.type) {
   case 'RESET_ANIMATION':
@@ -80,7 +120,7 @@ export default function reducer (state = Map(), action) {
   case 'STOP_ANIMATION':
     return stopAnimation(state, action);
   case 'STEP_ANIMATION_FORWARD':
-    return state;
+    return stepAnimationForward(state, action);
   case 'TOGGLE_CELL':
     return toggleCell(state, action);
   default:

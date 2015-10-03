@@ -1,7 +1,7 @@
-import {Map, List} from 'immutable';
+import {Map, List, OrderedSet} from 'immutable';
 
-export const ROWS = 21;
-export const COLS = 35;
+export const ROWS = 15;
+export const COLS = 25;
 
 function fillArray(n, callback) {
   const arr = Array.apply(null, Array(n));
@@ -16,12 +16,34 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const startCoordinates = List([getRandomInt(0, ROWS), getRandomInt(0, COLS)]);
-// const startCoordinates = List([1, 34]);
+// State
+// 1. List of Lists of Maps with role, visited?, frontier
+// 2. List of coordinates (Arrays) each for visited, frontier, walls
 
-const grid = emptyGrid(ROWS, COLS).setIn(startCoordinates, Map({ role: 'start' }));
+const startCoordinates = List([getRandomInt(0, ROWS), getRandomInt(0, COLS)]);
+
+const rows = ROWS;
+const cols = COLS;
+
+const grid = _.reduce(_.range(rows), function(rows, row) {
+  return rows.push(..._.map(_.range(cols), function (col) {
+    return List([row, col]);
+  }));
+}, List());
+
+const start    = startCoordinates;
+const visited  = OrderedSet();
+const frontierX = OrderedSet();
+const walls    = OrderedSet();
 
 export default Map({
   grid,
-  startCoordinates
+  startCoordinates,
+
+  rows,
+  cols,
+  start,
+  visited,
+  frontierX,
+  walls
 });

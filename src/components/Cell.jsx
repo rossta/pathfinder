@@ -4,8 +4,9 @@ import classNames from 'classnames';
 
 export default React.createClass({
   propTypes: {
-    frontier: React.PropTypes.instanceOf(List),
+    frontier: React.PropTypes.bool,
     visited: React.PropTypes.bool,
+    role: React.PropTypes.string,
     row: React.PropTypes.number,
     col: React.PropTypes.number,
     toggleCell:  React.PropTypes.func
@@ -23,10 +24,9 @@ export default React.createClass({
 
   render () {
     const {col, row, frontier, visited, role} = this.props;
-    // console.log("rendering", col, row);
     const classes = classNames('cell', `cell-role-${role}`, `col-${col}`, `row-${row}`, {
-      'cell-frontier': !!frontier,
-      'cell-visited': !!visited
+      'cell-frontier': frontier,
+      'cell-visited': visited
     });
     return (
       <div className={classes} onClick={this.onClick}></div>

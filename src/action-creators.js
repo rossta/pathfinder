@@ -32,7 +32,7 @@ export function animate() {
     } else {
       interval = setInterval(function dispatchStep () {
         dispatch(stepAnimationForward());
-      }, 100);
+      }, 50);
       dispatch(startAnimation(interval));
       dispatch(stepAnimationForward());
     }
