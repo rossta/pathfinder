@@ -1,10 +1,8 @@
 import React from 'react';
-import {List,OrderedSet} from 'immutable';
+import {List, OrderedSet} from 'immutable';
 import {connect} from 'react-redux';
-import _ from 'lodash';
 
 import * as actionCreators from '../action-creators';
-import Row from 'components/Row';
 import Cell from 'components/Cell';
 
 import 'styles/grid.scss';
@@ -14,8 +12,7 @@ const mapStateToProps = (state) => ({
   start:    state.get('start'),
   visited:  state.get('visited'),
   frontier: state.get('frontier'),
-  walls:    state.get('walls'),
-  start:    state.get('start')
+  walls:    state.get('walls')
 });
 
 export default class Grid extends React.Component {

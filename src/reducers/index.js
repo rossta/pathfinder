@@ -3,40 +3,49 @@ import {Map, List, OrderedSet} from 'immutable';
 
 import {ROWS, COLS} from 'stores/initial-state';
 
-export function startAnimation (state, action) {
-  return state.setIn(['animate', 'interval'], action.interval);
+export function startAnimation (state) {
+  return state;
 }
 
-export function stopAnimation (state) {
-  return state.deleteIn(['animate', 'interval']);
+export function pauseAnimation (state) {
+  return state;
 }
 
-export function toggleCell (state, action) {
+export function toggleCell (state) {
   const [row, col] = action.coordinates;
   const [role1, role2] = action.roles;
   const role = state.getIn(['grid', row, col, 'role']);
   return state.setIn(['grid', row, col, 'role'], (role === role1 ? role2 : role1));
 }
 
-export function resetAnimation(state, action) {
-  return state;
+export function resetAnimation(state) {
+  const visited  = OrderedSet();
+  const frontier = OrderedSet();
+  const walls    = OrderedSet();
+
+  return state.remove('current').merge({
+    visited,
+    frontier,
+    walls
+  });
 }
 
 function neighbors (coords) {
-  let [row,col] = coords;
-  let neighbors = [];
-  neighbors.push(List([row-1, col]));
-  neighbors.push(List([row, col-1]));
-  neighbors.push(List([row+1, col]));
-  neighbors.push(List([row, col+1]));
+  const [row, col] = coords;
+  const list = [
+    List([row - 1, col]),
+    List([row, col - 1]),
+    List([row + 1, col]),
+    List([row, col + 1])
+  ];
 
-  return OrderedSet(neighbors.filter((coord) => {
-    let [row,col] = coord;
-    return (row < ROWS && row >= 0 && col < COLS && col >= 0);
+  return OrderedSet(list.filter((ncoords) => {
+    const [nrow, ncol] = ncoords;
+    return (nrow < ROWS && nrow >= 0 && ncol < COLS && ncol >= 0);
   }));
 }
 
-export function stepAnimationForward (state, action) {
+export function stepAnimationForward (state) {
   let current = state.get('current');
   let frontier = state.get('frontier');
   let visited = state.get('visited');
@@ -56,7 +65,7 @@ export function stepAnimationForward (state, action) {
   }
 
   return state.merge({
-    frontier: frontier,
+    frontier,
     current,
     visited
   });
@@ -68,8 +77,8 @@ export default function reducer (state = Map(), action) {
     return resetAnimation(state, action);
   case 'START_ANIMATION':
     return startAnimation(state, action);
-  case 'STOP_ANIMATION':
-    return stopAnimation(state, action);
+  case 'PAUSE_ANIMATION':
+    return pauseAnimation(state, action);
   case 'STEP_ANIMATION_FORWARD':
     return stepAnimationForward(state, action);
   case 'TOGGLE_CELL':

@@ -5,10 +5,6 @@ const logger = store => next => action => {
   return result;
 };
 
-const animation = store => next => action => {
-};
-
 export {
-  animation,
   logger
 };

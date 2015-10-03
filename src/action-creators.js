@@ -4,9 +4,9 @@ export function resetAnimation () {
   };
 }
 
-export function stopAnimation () {
+export function pauseAnimation () {
   return {
-    type: 'STOP_ANIMATION'
+    type: 'PAUSE_ANIMATION'
   };
 }
 
@@ -20,22 +20,6 @@ export function startAnimation (interval) {
 export function stepAnimationForward () {
   return {
     type: 'STEP_ANIMATION_FORWARD'
-  };
-}
-
-export function animate() {
-  return function toggleInterval (dispatch, getState) {
-    let interval = getState().getIn(['animate', 'interval']);
-    if (interval) {
-      clearInterval(interval);
-      dispatch(stopAnimation());
-    } else {
-      interval = setInterval(function dispatchStep () {
-        dispatch(stepAnimationForward());
-      }, 50);
-      dispatch(startAnimation(interval));
-      dispatch(stepAnimationForward());
-    }
   };
 }
 

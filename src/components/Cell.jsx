@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import {List} from 'immutable';
 import classNames from 'classnames';
 
 export default React.createClass({
@@ -14,7 +13,7 @@ export default React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
-  onClick (e) {
+  onClick () {
     this.props.toggleCell(this.coordinates(), ['empty', 'wall']);
   },
 
