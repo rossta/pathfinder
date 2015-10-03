@@ -1,4 +1,4 @@
-import {Map, List, OrderedSet} from 'immutable';
+import {Map, List, OrderedSet, Set} from 'immutable';
 // import { combineReducers } from 'redux';
 
 import {ROWS, COLS} from 'stores/initial-state';
@@ -11,17 +11,23 @@ export function pauseAnimation (state) {
   return state;
 }
 
-export function toggleCell (state) {
-  const [row, col] = action.coordinates;
-  const [role1, role2] = action.roles;
-  const role = state.getIn(['grid', row, col, 'role']);
-  return state.setIn(['grid', row, col, 'role'], (role === role1 ? role2 : role1));
+export function toggleCell (state, action) {
+  let walls = state.get('walls');
+  let { coordinates } = action;
+  coordinates = List(coordinates);
+  if (walls.includes(coordinates)) {
+    walls = walls.remove(coordinates);
+  } else {
+    walls = walls.add(coordinates);
+  }
+  return state.merge({ walls });
 }
 
+// TODO reset and initial-state duplicate setup
 export function resetAnimation(state) {
-  const visited  = OrderedSet();
   const frontier = OrderedSet();
-  const walls    = OrderedSet();
+  const visited  = OrderedSet();
+  const walls    = Set();
 
   return state.remove('current').merge({
     visited,
@@ -45,10 +51,18 @@ function neighbors (coords) {
   }));
 }
 
+function visitableNeighbors(coords, state) {
+  const visited = state.get('visited');
+  const walls = state.get('walls');
+  return neighbors(coords).filter((coords) => {
+    return !(visited.includes(coords) || walls.includes(coords));
+  });
+}
+
 export function stepAnimationForward (state) {
-  let current = state.get('current');
+  let current  = state.get('current');
   let frontier = state.get('frontier');
-  let visited = state.get('visited');
+  let visited  = state.get('visited');
 
   if (!current) {
     const start = state.get('start');
@@ -58,9 +72,7 @@ export function stepAnimationForward (state) {
 
   if (!frontier.isEmpty()) {
     current = frontier.first();
-    frontier = frontier.remove(current).merge(neighbors(current).filter((coords) => {
-      return !visited.includes(coords);
-    }));
+    frontier = frontier.remove(current).merge(visitableNeighbors(current, state));
     visited = visited.add(current);
   }
 

@@ -7,8 +7,8 @@ import { DevTools, LogMonitor, DebugPanel } from 'redux-devtools/lib/react';
 
 export default class Root extends React.Component {
   static propTypes = {
-    store          : React.PropTypes.object.isRequired,
-    routerHistory  : React.PropTypes.object.isRequired
+    store:         React.PropTypes.object.isRequired,
+    routerHistory: React.PropTypes.object.isRequired
   }
 
   constructor () {

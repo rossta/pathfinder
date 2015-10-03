@@ -23,10 +23,9 @@ export function stepAnimationForward () {
   };
 }
 
-export function toggleCell (coordinates, roles) {
+export function toggleCell (coordinates) {
   return {
     type : 'TOGGLE_CELL',
-    coordinates,
-    roles
+    coordinates
   };
 }

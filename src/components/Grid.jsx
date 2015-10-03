@@ -22,7 +22,7 @@ export default class Grid extends React.Component {
     start:    React.PropTypes.instanceOf(List),
     visited:  React.PropTypes.instanceOf(OrderedSet),
     frontier: React.PropTypes.instanceOf(OrderedSet),
-    walls:    React.PropTypes.instanceOf(OrderedSet)
+    walls:    React.PropTypes.instanceOf(Set)
   }
 
   constructor () {
@@ -53,8 +53,8 @@ export default class Grid extends React.Component {
               col={col}
               row={row}
               role={this.cellRole(coords)}
-              frontier={frontier.includes(coords)}
-              visited={visited.includes(coords)}
+              onFrontier={frontier.includes(coords)}
+              wasVisited={visited.includes(coords)}
               key={`cell-${row}-${col}`} />
           );
         })}
