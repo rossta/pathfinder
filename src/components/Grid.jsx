@@ -1,5 +1,5 @@
 import React from 'react';
-import {List, OrderedSet} from 'immutable';
+import {List, OrderedSet, Set} from 'immutable';
 import {connect} from 'react-redux';
 
 import * as actionCreators from '../action-creators';

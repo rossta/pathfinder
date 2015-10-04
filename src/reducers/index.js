@@ -1,14 +1,14 @@
 import {Map, List, OrderedSet, Set} from 'immutable';
 // import { combineReducers } from 'redux';
 
-import {ROWS, COLS} from 'stores/initial-state';
+import {ROWS, COLS, DEFAULT_WALLS} from 'stores/initial-state';
 
-export function startAnimation (state) {
-  return state;
+export function startAnimation (state, action) {
+  return state.setIn(['animation', 'breadthFirstSearch'], action.interval);
 }
 
 export function pauseAnimation (state) {
-  return state;
+  return state.setIn(['animation', 'breadthFirstSearch'], null);
 }
 
 export function toggleCell (state, action) {
@@ -27,7 +27,11 @@ export function toggleCell (state, action) {
 export function resetAnimation(state) {
   const frontier = OrderedSet();
   const visited  = OrderedSet();
-  const walls    = Set();
+  const walls    = Set(DEFAULT_WALLS);
+
+  // TODO support reset of one animation when
+  // others are running
+  const animation = Map();
 
   return state.remove('current').merge({
     visited,
@@ -54,12 +58,10 @@ function neighbors (coords) {
 function visitableNeighbors(coords, state) {
   const visited = state.get('visited');
   const walls = state.get('walls');
-  return neighbors(coords).filter((coords) => {
-    return !(visited.includes(coords) || walls.includes(coords));
-  });
+  return neighbors(coords).filter((c) => !(visited.includes(c) || walls.includes(c)));
 }
 
-export function stepAnimationForward (state) {
+function breadthFirstSearch (state) {
   let current  = state.get('current');
   let frontier = state.get('frontier');
   let visited  = state.get('visited');
@@ -81,6 +83,10 @@ export function stepAnimationForward (state) {
     current,
     visited
   });
+}
+
+export function stepAnimationForward (state) {
+  return breadthFirstSearch(state);
 }
 
 export default function reducer (state = Map(), action) {

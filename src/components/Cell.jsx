@@ -15,7 +15,7 @@ export default React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   onClick () {
-    this.props.toggleCell(this.coordinates(), ['empty', 'wall']);
+    this.props.toggleCell(this.coordinates());
   },
 
   coordinates () {
@@ -28,9 +28,13 @@ export default React.createClass({
       'cell-frontier': onFrontier,
       'cell-visited':  wasVisited
     });
-    console.log('render cell', row, col);
+    // console.log('render cell', row, col);
     return (
-      <div className={classes} onClick={this.onClick}></div>
+      <div
+        className={classes}
+        onClick={this.onClick}
+        >
+      </div>
     );
   }
 });

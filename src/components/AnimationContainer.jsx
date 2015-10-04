@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { stepAnimationForward, resetAnimation, startAnimation, pauseAnimation } from '../action-creators';
+import { stepAnimationForward, resetAnimation, startAnimation, pauseAnimation, printGrid } from '../action-creators';
+
+const mapStateToProps = (state) => ({
+  animation: state.get('animation')
+});
 
 export class AnimationContainer extends React.Component {
   static propTypes = {
@@ -10,46 +14,37 @@ export class AnimationContainer extends React.Component {
 
   constructor () {
     super();
-    this.state = { interva: null };
   }
 
   onClickStart () {
-    this.start();
+    return this.start();
   }
 
   onClickPause () {
-    this.pause();
+    return this.pause();
   }
 
   onClickStepForward () {
-    this.stepForward();
+    return this.stepForward();
   }
 
   onClickReset () {
-    this.reset();
+    return this.reset();
+  }
+
+  onClickPrintGrid () {
+    return this.props.dispatch(printGrid());
   }
 
   start() {
-    const dispatch = this.props.dispatch;
-    dispatch(pauseAnimation());
-    dispatch(startAnimation());
-    dispatch(stepAnimationForward());
-    const interval = setInterval(() => {
-      dispatch(stepAnimationForward());
-    });
-    this.setState({ interval });
+    return this.props.dispatch(startAnimation());
   }
 
   pause () {
-    if (this.isAnimating()) {
-      clearInterval(this.state.interval);
-      this.setState({ interval: null });
-      return this.props.dispatch(pauseAnimation());
-    }
+    return this.props.dispatch(pauseAnimation());
   }
 
   reset () {
-    this.pause();
     return this.props.dispatch(resetAnimation());
   }
 
@@ -58,26 +53,27 @@ export class AnimationContainer extends React.Component {
   }
 
   isAnimating () {
-    console.log('props', this.props);
-    return !!this.state.interval;
+    return !!this.props.animation.get('breadthFirstSearch');
+  }
+
+  componentDidMount () {
+    console.log('componentDidMount AnimationContainer');
   }
 
   renderAnimateButton () {
-    let button;
     if (this.isAnimating()) {
-      button = (<button
+      return (<button
         className='btn btn-default'
         onClick={::this.onClickPause}>
         Pause
       </button>);
     } else {
-      button = (<button
+      return (<button
         className='btn btn-default'
         onClick={::this.onClickStart}>
         Start
       </button>);
     }
-    return button;
   }
 
   render () {
@@ -93,9 +89,15 @@ export class AnimationContainer extends React.Component {
           onClick={::this.onClickReset}>
           Reset
         </button>
+        <button className='btn btn-default'
+          onClick={::this.onClickPrintGrid}>
+          Print Grid
+        </button>
       </div>
     );
   }
 }
 
-export default connect()(AnimationContainer);
+export default connect(
+  mapStateToProps
+)(AnimationContainer);
