@@ -1,5 +1,5 @@
 import React from 'react';
-import {Map, List} from 'immutable';
+import {Map, List, OrderedSet} from 'immutable';
 import { connect } from 'react-redux';
 import {
   stepAnimationForward,
@@ -11,23 +11,22 @@ import {
 
 import times from 'lodash/utility/times';
 
-const mapStateToProps = (state) => ({
-  animation: state.get('animation'),
-  grid: state.get('grid'),
-  visited: state.get('visited')
-});
-
-export class AnimationContainer extends React.Component {
+class AnimationContainer extends React.Component {
   static propTypes = {
-    dispatch: React.PropTypes.func,
     children: React.PropTypes.element,
-    animation: React.PropTypes.instanceOf(Map),
-    grid: React.PropTypes.instanceOf(List),
-    visited: React.PropTypes.instanceOf(List)
+    dispatch: React.PropTypes.func,
+
+    interval: React.PropTypes.number,
+    max: React.PropTypes.number,
+    current: React.PropTypes.number
   }
 
   constructor () {
     super();
+  }
+
+  componentDidMount () {
+    // console.log('componentDidMount AnimationContainer');
   }
 
   onClickStart () {
@@ -56,7 +55,7 @@ export class AnimationContainer extends React.Component {
 
   onChangeSlider (e) {
     const value = e.target.valueAsNumber;
-    const diff = value - this.props.visited.count();
+    const diff = value - this.props.current;
     let stepFunction;
 
     if (diff === 0) { return false; }
@@ -90,11 +89,7 @@ export class AnimationContainer extends React.Component {
   }
 
   isAnimating () {
-    return !!this.props.animation.get('breadthFirstSearch');
-  }
-
-  componentDidMount () {
-    console.log('componentDidMount AnimationContainer');
+    return !!this.props.interval;
   }
 
   renderAnimateButton () {
@@ -114,8 +109,8 @@ export class AnimationContainer extends React.Component {
   }
 
   render () {
-    const maxSteps = this.props.grid.count();
-    const currentStep = this.props.visited.count();
+    const maxSteps = this.props.max;
+    const currentStep = this.props.current;
     return (
       <div className="animation">
         {this.props.children}
@@ -151,6 +146,4 @@ export class AnimationContainer extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps
-)(AnimationContainer);
+export default connect()(AnimationContainer);

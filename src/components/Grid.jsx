@@ -1,28 +1,18 @@
 import React from 'react';
 import {List, OrderedSet, Set} from 'immutable';
-import {connect} from 'react-redux';
 
-import * as actionCreators from '../action-creators';
 import Cell from 'components/Cell';
 
 import 'styles/grid.scss';
 
-const mapStateToProps = (state) => ({
-  grid:     state.get('grid'),
-  start:    state.get('start'),
-  visited:  state.get('visited'),
-  frontier: state.get('frontier'),
-  walls:    state.get('walls')
-});
-
 export default class Grid extends React.Component {
   static propTypes = {
-    grid: React.PropTypes.instanceOf(List),
-    toggleCell:  React.PropTypes.func,
-    start:    React.PropTypes.instanceOf(List),
-    visited:  React.PropTypes.instanceOf(OrderedSet),
-    frontier: React.PropTypes.instanceOf(OrderedSet),
-    walls:    React.PropTypes.instanceOf(Set)
+    grid:       React.PropTypes.instanceOf(List),
+    toggleCell: React.PropTypes.func,
+    start:      React.PropTypes.instanceOf(List),
+    visited:    React.PropTypes.instanceOf(OrderedSet),
+    frontier:   React.PropTypes.instanceOf(OrderedSet),
+    walls:      React.PropTypes.instanceOf(Set)
   }
 
   constructor () {
@@ -64,9 +54,3 @@ export default class Grid extends React.Component {
     );
   }
 }
-
-export default connect(
-  mapStateToProps,
-  actionCreators
-)(Grid);
-

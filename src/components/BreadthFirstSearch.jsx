@@ -1,11 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {Map, List, OrderedSet} from 'immutable';
 
-const mapStateToProps = (state) => ({});
+import * as actionCreators from '../action-creators';
+
+import AnimationContainer from 'components/AnimationContainer';
+import Grid from 'components/Grid';
+
+const mapStateToProps = (state) => ({
+  animation: state.get('animation'),
+  frontier: state.get('frontier'),
+  grid:     state.get('grid'),
+  start:    state.get('start'),
+  visited:  state.get('visited'),
+  walls:    state.get('walls'),
+
+  breadthFirstSearch: state.get('breadthFirstSearch')
+});
 
 export class BreadthFirstSearch extends React.Component {
   static propTypes = {
-    children : React.PropTypes.element
+    animation: React.PropTypes.instanceOf(Map),
+    children: React.PropTypes.element,
+    dispatch: React.PropTypes.func,
+    grid: React.PropTypes.instanceOf(List),
+    visited: React.PropTypes.instanceOf(OrderedSet)
   }
 
   constructor () {
@@ -13,14 +32,23 @@ export class BreadthFirstSearch extends React.Component {
   }
 
   render () {
+    const animation = {
+      max: this.props.grid.count(),
+      current: this.props.visited.count(),
+      interval: this.props.animation.get('breadthFirstSearch')
+    };
+
     return (
       <div className='breadth-first-search'>
-        {this.props.children}
+        <AnimationContainer {...animation}>
+          <Grid {...this.props} />
+        </AnimationContainer>
       </div>
     );
   }
 }
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  actionCreators
 )(BreadthFirstSearch);
