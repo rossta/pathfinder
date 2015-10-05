@@ -1,4 +1,5 @@
 import React from 'react';
+import {Map, List} from 'immutable';
 import { connect } from 'react-redux';
 import {
   stepAnimationForward,
@@ -8,14 +9,21 @@ import {
   pauseAnimation,
   printGrid } from '../action-creators';
 
+import times from 'lodash/utility/times';
+
 const mapStateToProps = (state) => ({
-  animation: state.get('animation')
+  animation: state.get('animation'),
+  grid: state.get('grid'),
+  visited: state.get('visited')
 });
 
 export class AnimationContainer extends React.Component {
   static propTypes = {
     dispatch: React.PropTypes.func,
-    children: React.PropTypes.element
+    children: React.PropTypes.element,
+    animation: React.PropTypes.instanceOf(Map),
+    grid: React.PropTypes.instanceOf(List),
+    visited: React.PropTypes.instanceOf(List)
   }
 
   constructor () {
@@ -44,6 +52,21 @@ export class AnimationContainer extends React.Component {
 
   onClickPrintGrid () {
     return this.props.dispatch(printGrid());
+  }
+
+  onChangeSlider (e) {
+    const value = e.target.valueAsNumber;
+    const diff = value - this.props.visited.count();
+    let stepFunction;
+
+    if (diff === 0) { return false; }
+
+    if (diff > 0) {
+      stepFunction = this.stepForward;
+    } else {
+      stepFunction = this.stepBack;
+    }
+    times(Math.abs(diff), stepFunction.bind(this));
   }
 
   start() {
@@ -91,22 +114,34 @@ export class AnimationContainer extends React.Component {
   }
 
   render () {
+    const maxSteps = this.props.grid.count();
+    const currentStep = this.props.visited.count();
     return (
       <div className="animation">
         {this.props.children}
         <button className='btn btn-default'
           onClick={::this.onClickStepBack}>
-          &lt; Step back
+          &lt;
         </button>
         {::this.renderAnimateButton()}
-        <button className='btn btn-default'
-          onClick={::this.onClickStepForward}>
-          Step forward &gt;
-        </button>
         <button className='btn btn-default'
           onClick={::this.onClickReset}>
           Reset
         </button>
+        <button className='btn btn-default'
+          onClick={::this.onClickStepForward}>
+          &gt;
+        </button>
+        <br />
+        <input type="range"
+          className="range-input"
+          onChange={::this.onChangeSlider}
+          value={currentStep}
+          min="0"
+          max={maxSteps}
+          step="1" />
+        {currentStep}
+        <br />
         <button className='btn btn-default'
           onClick={::this.onClickPrintGrid}>
           Print Grid

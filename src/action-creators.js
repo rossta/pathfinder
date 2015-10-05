@@ -1,13 +1,3 @@
-export function resetAnimation () {
-  return (dispatch, getState) => {
-    dispatch(pauseAnimation());
-
-    dispatch({
-      type: 'RESET_ANIMATION'
-    });
-  };
-}
-
 export function pauseAnimation () {
   return (dispatch, getState) => {
     const interval = getState().getIn(['animation', 'breadthFirstSearch']);
@@ -20,11 +10,35 @@ export function pauseAnimation () {
   };
 }
 
-export function startAnimation (interval) {
+export function stepAnimationForward () {
   return (dispatch, getState) => {
+    const state = getState();
+    if (state.get('current') && state.get('frontier').isEmpty()) {
+      dispatch(pauseAnimation());
+    } else {
+      dispatch({
+        type: 'STEP_ANIMATION_FORWARD'
+      });
+    }
+  };
+}
+
+export function stepAnimationBack () {
+  return (dispatch, getState) => {
+    const state = getState();
+    if (!state.get('frontier').isEmpty()) {
+      dispatch({
+        type: 'STEP_ANIMATION_BACK'
+      });
+    }
+  };
+}
+
+export function startAnimation () {
+  return (dispatch) => {
     dispatch(pauseAnimation());
 
-    const interval = setInterval(function() {
+    const interval = setInterval(() => {
       dispatch(stepAnimationForward());
     });
 
@@ -34,31 +48,17 @@ export function startAnimation (interval) {
     });
 
     dispatch(stepAnimationForward());
-  }
+  };
 }
 
-export function stepAnimationForward () {
-  return function (dispatch, getState) {
-    const state = getState();
-    if (state.get('current') && state.get('frontier').isEmpty()) {
-      dispatch(pauseAnimation());
-    } else {
-      dispatch({
-        type: 'STEP_ANIMATION_FORWARD'
-      });
-    }
-  }
-}
+export function resetAnimation () {
+  return (dispatch) => {
+    dispatch(pauseAnimation());
 
-export function stepAnimationBack () {
-  return function (dispatch, getState) {
-    const state = getState();
-    if (!state.get('frontier').isEmpty()) {
-      dispatch({
-        type: 'STEP_ANIMATION_BACK'
-      });
-    }
-  }
+    dispatch({
+      type: 'RESET_ANIMATION'
+    });
+  };
 }
 
 export function toggleCell (coordinates) {

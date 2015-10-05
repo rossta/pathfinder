@@ -27,8 +27,7 @@ export function toggleCell (state, action) {
 export function resetAnimation(state) {
   const frontier  = OrderedSet();
   const visited   = OrderedSet();
-  // const walls    = Set(DEFAULT_WALLS);
-  const walls     = Set();
+  const walls     = Set(DEFAULT_WALLS);
   const animation = Map();
   const history   = Map();
 
@@ -74,13 +73,13 @@ function breadthFirstSearchStepForward (state) {
     visited     = visited.add(start);
   }
 
-  let frontierHistory = history.get('frontier', List());
-  let visitedHistory = history.get('visited', List());
+  const frontierHistory = history.get('frontier', List());
+  const visitedHistory = history.get('visited', List());
 
   history = history.merge({
     frontier: frontierHistory.push(frontier),
     visited: visitedHistory.push(visited)
-  })
+  });
 
   if (!frontier.isEmpty()) {
     current  = frontier.first();
@@ -101,14 +100,14 @@ function breadthFirstSearchStepBack (state) {
     return state;
   }
 
-  let current         = state.get('visited').last();
+  const current         = state.get('visited').last();
   let history         = state.get('history');
 
-  let frontierHistory = history.get('frontier');
-  let visitedHistory  = history.get('visited');
+  const frontierHistory = history.get('frontier');
+  const visitedHistory  = history.get('visited');
 
-  let frontier        = frontierHistory.last();
-  let visited         = visitedHistory.last();
+  const frontier        = frontierHistory.last();
+  const visited         = visitedHistory.last();
 
   history = history.merge({
     frontier: frontierHistory.pop(),

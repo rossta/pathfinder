@@ -45,6 +45,7 @@ export default class Grid extends React.Component {
 
     return (
       <div className="grid-container">
+      <div className="grid">
         {grid.map(coords => {
           const [row, col] = coords.toJS();
           return (
@@ -58,6 +59,7 @@ export default class Grid extends React.Component {
               key={`cell-${row}-${col}`} />
           );
         })}
+      </div>
       </div>
     );
   }

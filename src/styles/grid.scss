@@ -1,6 +1,23 @@
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+.grid-container {
+  display: flex;
+  justify-content: center;
+}
+
+.grid {
+  @include clearfix;
+  margin: 0 auto;
+}
 .cell {
-  width: 24px;
-  height: 24px;
+  width: 2vw;
+  padding-bottom: 2vw;
   border: 1px solid white;
   float: left;
 }
