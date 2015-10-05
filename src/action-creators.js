@@ -50,6 +50,17 @@ export function stepAnimationForward () {
   }
 }
 
+export function stepAnimationBack () {
+  return function (dispatch, getState) {
+    const state = getState();
+    if (!state.get('frontier').isEmpty()) {
+      dispatch({
+        type: 'STEP_ANIMATION_BACK'
+      });
+    }
+  }
+}
+
 export function toggleCell (coordinates) {
   return {
     type : 'TOGGLE_CELL',
@@ -62,20 +73,3 @@ export function printGrid () {
     type : 'PRINT_GRID'
   };
 }
-
-// Example thunk
-// export function animate() {
-//   return function (dispatch, getState) {
-//     let interval = getState().getIn(['animation', 'interval']);
-//     if (interval) {
-//       clearInterval(interval);
-//       dispatch(stopAnimation());
-//     } else {
-//       const interval = setInterval(function() {
-//         dispatch(stepAnimationForward());
-//       }, 1000);
-//       dispatch(startAnimation(interval));
-//       dispatch(stepAnimationForward());
-//     }
-//   }
-// }

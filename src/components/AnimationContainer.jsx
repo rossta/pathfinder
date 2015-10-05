@@ -1,6 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { stepAnimationForward, resetAnimation, startAnimation, pauseAnimation, printGrid } from '../action-creators';
+import {
+  stepAnimationForward,
+  stepAnimationBack,
+  resetAnimation,
+  startAnimation,
+  pauseAnimation,
+  printGrid } from '../action-creators';
 
 const mapStateToProps = (state) => ({
   animation: state.get('animation')
@@ -28,6 +34,10 @@ export class AnimationContainer extends React.Component {
     return this.stepForward();
   }
 
+  onClickStepBack () {
+    return this.stepBack();
+  }
+
   onClickReset () {
     return this.reset();
   }
@@ -50,6 +60,10 @@ export class AnimationContainer extends React.Component {
 
   stepForward () {
     return this.props.dispatch(stepAnimationForward());
+  }
+
+  stepBack () {
+    return this.props.dispatch(stepAnimationBack());
   }
 
   isAnimating () {
@@ -80,10 +94,14 @@ export class AnimationContainer extends React.Component {
     return (
       <div className="animation">
         {this.props.children}
+        <button className='btn btn-default'
+          onClick={::this.onClickStepBack}>
+          &lt; Step back
+        </button>
         {::this.renderAnimateButton()}
         <button className='btn btn-default'
           onClick={::this.onClickStepForward}>
-          Step forward >
+          Step forward &gt;
         </button>
         <button className='btn btn-default'
           onClick={::this.onClickReset}>

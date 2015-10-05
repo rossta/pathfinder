@@ -18,6 +18,7 @@ const visited   = OrderedSet();
 const frontier  = OrderedSet();
 const walls     = Set();
 const animation = Map();
+const history   = Map();
 
 const grid = _.reduce(_.range(rows), (list, row) => {
   return list.push(..._.map(_.range(cols), col =>  {
@@ -30,8 +31,9 @@ export default Map({
   rows,
   cols,
   start,
+  walls,
+  animation,
   visited,
   frontier,
-  walls,
-  animation
+  history
 });

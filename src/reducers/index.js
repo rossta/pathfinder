@@ -25,18 +25,19 @@ export function toggleCell (state, action) {
 
 // TODO reset and initial-state duplicate setup
 export function resetAnimation(state) {
-  const frontier = OrderedSet();
-  const visited  = OrderedSet();
-  const walls    = Set(DEFAULT_WALLS);
-
-  // TODO support reset of one animation when
-  // others are running
+  const frontier  = OrderedSet();
+  const visited   = OrderedSet();
+  // const walls    = Set(DEFAULT_WALLS);
+  const walls     = Set();
   const animation = Map();
+  const history   = Map();
 
   return state.remove('current').merge({
+    walls,
+    animation,
     visited,
     frontier,
-    walls
+    history
   });
 }
 
@@ -61,32 +62,73 @@ function visitableNeighbors(coords, state) {
   return neighbors(coords).filter((c) => !(visited.includes(c) || walls.includes(c)));
 }
 
-function breadthFirstSearch (state) {
+function breadthFirstSearchStepForward (state) {
   let current  = state.get('current');
   let frontier = state.get('frontier');
   let visited  = state.get('visited');
+  let history  = state.get('history');
 
   if (!current) {
     const start = state.get('start');
-    frontier = frontier.add(start);
-    visited = visited.add(start);
+    frontier    = frontier.add(start);
+    visited     = visited.add(start);
   }
 
+  let frontierHistory = history.get('frontier', List());
+  let visitedHistory = history.get('visited', List());
+
+  history = history.merge({
+    frontier: frontierHistory.push(frontier),
+    visited: visitedHistory.push(visited)
+  })
+
   if (!frontier.isEmpty()) {
-    current = frontier.first();
+    current  = frontier.first();
     frontier = frontier.remove(current).merge(visitableNeighbors(current, state));
-    visited = visited.add(current);
+    visited  = visited.add(current);
   }
 
   return state.merge({
-    frontier,
     current,
-    visited
+    frontier,
+    visited,
+    history
   });
 }
 
+function breadthFirstSearchStepBack (state) {
+  if (!state.get('current') || state.get('current').equals(state.get('start'))) {
+    return state;
+  }
+
+  let current         = state.get('visited').last();
+  let history         = state.get('history');
+
+  let frontierHistory = history.get('frontier');
+  let visitedHistory  = history.get('visited');
+
+  let frontier        = frontierHistory.last();
+  let visited         = visitedHistory.last();
+
+  history = history.merge({
+    frontier: frontierHistory.pop(),
+    visited: visitedHistory.pop()
+  });
+
+  return state.merge({
+    current,
+    frontier,
+    visited,
+    history
+  });
+}
+
+export function stepAnimationBack (state) {
+  return breadthFirstSearchStepBack(state);
+}
+
 export function stepAnimationForward (state) {
-  return breadthFirstSearch(state);
+  return breadthFirstSearchStepForward(state);
 }
 
 export default function reducer (state = Map(), action) {
@@ -99,6 +141,8 @@ export default function reducer (state = Map(), action) {
     return pauseAnimation(state, action);
   case 'STEP_ANIMATION_FORWARD':
     return stepAnimationForward(state, action);
+  case 'STEP_ANIMATION_BACK':
+    return stepAnimationBack(state, action);
   case 'TOGGLE_CELL':
     return toggleCell(state, action);
   default:
