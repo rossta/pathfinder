@@ -1,5 +1,4 @@
 import React from 'react';
-import {Map, List, OrderedSet} from 'immutable';
 import { connect } from 'react-redux';
 import {
   stepAnimationForward,
