@@ -18,7 +18,7 @@ const webpackConfig = {
   output : {
     filename   : '[name].[hash].js',
     path       : paths.dist(),
-    publicPath : '/'
+    publicPath : ''
   },
   plugins : [
     new webpack.DefinePlugin(config.get('globals')),
