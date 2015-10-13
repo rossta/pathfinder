@@ -6,7 +6,7 @@ import {
   resetAnimation,
   startAnimation,
   pauseAnimation,
-  printGrid } from '../action-creators';
+  printGrid } from '../actions';
 
 import times from 'lodash/utility/times';
 

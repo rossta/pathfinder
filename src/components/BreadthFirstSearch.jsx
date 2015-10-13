@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {Map, List, OrderedSet} from 'immutable';
 
-import * as actionCreators from '../action-creators';
+import * as actions from '../action';
 
 import AnimationContainer from 'components/AnimationContainer';
 import Grid from 'components/Grid';
@@ -50,5 +50,5 @@ export class BreadthFirstSearch extends React.Component {
 
 export default connect(
   mapStateToProps,
-  actionCreators
+  actions
 )(BreadthFirstSearch);
