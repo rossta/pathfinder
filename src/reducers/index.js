@@ -3,15 +3,15 @@ import {Map, List, OrderedSet, Set} from 'immutable';
 
 import {ROWS, COLS, DEFAULT_WALLS} from 'stores/initial-state';
 
-export function startAnimation (state, action) {
+export function startAnimation(state, action) {
   return state.setIn(['animation', 'breadthFirstSearch'], action.interval);
 }
 
-export function pauseAnimation (state) {
+export function pauseAnimation(state) {
   return state.setIn(['animation', 'breadthFirstSearch'], null);
 }
 
-export function toggleCell (state, action) {
+export function toggleCell(state, action) {
   let walls = state.get('walls');
   let { coordinates } = action;
   coordinates = List(coordinates);
@@ -40,7 +40,7 @@ export function resetAnimation(state) {
   });
 }
 
-function neighbors (coords) {
+function neighbors(coords) {
   const [row, col] = coords;
   const list = [
     List([row - 1, col]),
@@ -51,7 +51,7 @@ function neighbors (coords) {
 
   return OrderedSet(list.filter((ncoords) => {
     const [nrow, ncol] = ncoords;
-    return (nrow < ROWS && nrow >= 0 && ncol < COLS && ncol >= 0);
+    return(nrow < ROWS && nrow >= 0 && ncol < COLS && ncol >= 0);
   }));
 }
 
@@ -61,7 +61,7 @@ function visitableNeighbors(coords, state) {
   return neighbors(coords).filter((c) => !(visited.includes(c) || walls.includes(c)));
 }
 
-function breadthFirstSearchStepForward (state) {
+function breadthFirstSearchStepForward(state) {
   let current  = state.get('current');
   let frontier = state.get('frontier');
   let visited  = state.get('visited');
@@ -95,7 +95,7 @@ function breadthFirstSearchStepForward (state) {
   });
 }
 
-function breadthFirstSearchStepBack (state) {
+function breadthFirstSearchStepBack(state) {
   if (!state.get('current') || state.get('current').equals(state.get('start'))) {
     return state;
   }
@@ -122,15 +122,15 @@ function breadthFirstSearchStepBack (state) {
   });
 }
 
-export function stepAnimationBack (state) {
+export function stepAnimationBack(state) {
   return breadthFirstSearchStepBack(state);
 }
 
-export function stepAnimationForward (state) {
+export function stepAnimationForward(state) {
   return breadthFirstSearchStepForward(state);
 }
 
-export default function reducer (state = Map(), action) {
+export default function reducer(state = Map(), action) {
   switch (action.type) {
   case 'RESET_ANIMATION':
     return resetAnimation(state, action);

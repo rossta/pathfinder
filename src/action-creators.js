@@ -1,4 +1,4 @@
-export function pauseAnimation () {
+export function pauseAnimation() {
   return (dispatch, getState) => {
     const interval = getState().getIn(['animation', 'breadthFirstSearch']);
     if (interval) {
@@ -10,7 +10,7 @@ export function pauseAnimation () {
   };
 }
 
-export function stepAnimationForward () {
+export function stepAnimationForward() {
   return (dispatch, getState) => {
     const state = getState();
     if (state.get('current') && state.get('frontier').isEmpty()) {
@@ -23,7 +23,7 @@ export function stepAnimationForward () {
   };
 }
 
-export function stepAnimationBack () {
+export function stepAnimationBack() {
   return (dispatch, getState) => {
     const state = getState();
     if (!state.get('frontier').isEmpty()) {
@@ -34,7 +34,7 @@ export function stepAnimationBack () {
   };
 }
 
-export function startAnimation () {
+export function startAnimation() {
   return (dispatch) => {
     dispatch(pauseAnimation());
 
@@ -51,7 +51,7 @@ export function startAnimation () {
   };
 }
 
-export function resetAnimation () {
+export function resetAnimation() {
   return (dispatch) => {
     dispatch(pauseAnimation());
 
@@ -61,14 +61,14 @@ export function resetAnimation () {
   };
 }
 
-export function toggleCell (coordinates) {
+export function toggleCell(coordinates) {
   return {
     type : 'TOGGLE_CELL',
     coordinates
   };
 }
 
-export function printGrid () {
+export function printGrid() {
   return {
     type : 'PRINT_GRID'
   };
