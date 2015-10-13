@@ -136,9 +136,9 @@ class AnimationContainer extends React.Component {
           step="1" />
         {currentStep}
         <br />
-        <button className='btn btn-default'
+        <button className='btn btn-secondary'
           onClick={::this.onClickPrintGrid}>
-          Print Grid
+          console.log grid
         </button>
       </div>
     );

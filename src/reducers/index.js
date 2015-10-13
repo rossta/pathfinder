@@ -101,7 +101,7 @@ function breadthFirstSearchStepBack (state) {
   }
 
   const current         = state.get('visited').last();
-  let history         = state.get('history');
+  let history           = state.get('history');
 
   const frontierHistory = history.get('frontier');
   const visitedHistory  = history.get('visited');
