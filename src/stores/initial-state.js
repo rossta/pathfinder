@@ -1,4 +1,4 @@
-import {Map, List, OrderedSet, Set} from 'immutable';
+import { Map, List, OrderedSet, Set } from 'immutable';
 import _ from 'lodash';
 
 export const ROWS = 15;

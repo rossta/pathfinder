@@ -28,7 +28,6 @@ export default React.createClass({
       'cell-frontier': onFrontier,
       'cell-visited':  wasVisited
     });
-    // console.log('render cell', row, col);
     return (
       <div
         className={classes}

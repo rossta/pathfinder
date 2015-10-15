@@ -40,6 +40,7 @@ export class BreadthFirstSearch extends React.Component {
 
     return (
       <div className='breadth-first-search'>
+        <h2>Visualizing breadth first search</h2>
         <AnimationContainer {...animation}>
           <Grid {...this.props} />
         </AnimationContainer>
