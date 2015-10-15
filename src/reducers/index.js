@@ -51,7 +51,7 @@ function neighbors(coords) {
 
   return OrderedSet(list.filter((ncoords) => {
     const [nrow, ncol] = ncoords;
-    return(nrow < ROWS && nrow >= 0 && ncol < COLS && ncol >= 0);
+    return (nrow < ROWS && nrow >= 0 && ncol < COLS && ncol >= 0);
   }));
 }
 

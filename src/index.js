@@ -5,10 +5,10 @@ import configureStore from './stores';
 // import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 import initialState from './stores/initial-state';
-import {resetAnimation} from './actions';
+import { resetAnimation } from './actions';
 
 const target = document.getElementById('root');
-const store  = configureStore(initialState);
+const store  = configureStore(initialState());
 
 store.dispatch(resetAnimation());
 

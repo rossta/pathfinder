@@ -10,30 +10,32 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const rows = ROWS;
-const cols = COLS;
+function createGrid(rows, cols) {
+  return  _.reduce(_.range(rows), (list, row) => {
+    return list.push(..._.map(_.range(cols), col =>  {
+      return List([row, col]);
+    }));
+  }, List());
+}
 
-const start     = List([getRandomInt(0, ROWS), getRandomInt(0, COLS)]);
-const visited   = OrderedSet();
-const frontier  = OrderedSet();
-const walls     = Set();
-const animation = Map();
-const history   = Map();
+export default function initialState({ rows = ROWS, cols = COLS } = {}) {
+  const start     = List([getRandomInt(0, rows), getRandomInt(0, cols)]);
+  const visited   = OrderedSet();
+  const frontier  = OrderedSet();
+  const walls     = Set();
+  const animation = Map();
+  const history   = Map();
+  const grid = createGrid(rows, cols);
 
-const grid = _.reduce(_.range(rows), (list, row) => {
-  return list.push(..._.map(_.range(cols), col =>  {
-    return List([row, col]);
-  }));
-}, List());
-
-export default Map({
-  grid,
-  rows,
-  cols,
-  start,
-  walls,
-  animation,
-  visited,
-  frontier,
-  history
-});
+  return Map({
+    grid,
+    rows,
+    cols,
+    start,
+    walls,
+    animation,
+    visited,
+    frontier,
+    history
+  });
+}
