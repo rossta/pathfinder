@@ -6,9 +6,10 @@ export default React.createClass({
     row:        React.PropTypes.number,
     col:        React.PropTypes.number,
 
-    role:       React.PropTypes.string,
     onFrontier: React.PropTypes.bool,
     wasVisited: React.PropTypes.bool,
+    isStart:    React.PropTypes.bool,
+    isWall:     React.PropTypes.bool,
     toggleCell: React.PropTypes.func
   },
 
@@ -23,8 +24,10 @@ export default React.createClass({
   },
 
   render () {
-    const {col, row, role, onFrontier, wasVisited} = this.props;
-    const classes = classNames('cell', `cell-role-${role}`, `col-${col}`, `row-${row}`, {
+    const {col, row, onFrontier, wasVisited, isStart, isWall} = this.props;
+    const classes = classNames('cell', `col-${col}`, `row-${row}`, {
+      'cell-wall': isWall,
+      'cell-start': isStart,
       'cell-frontier': onFrontier,
       'cell-visited':  wasVisited
     });

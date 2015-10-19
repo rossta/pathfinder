@@ -14,10 +14,10 @@ class AnimationContainer extends React.Component {
   static propTypes = {
     children: React.PropTypes.element,
     dispatch: React.PropTypes.func,
-
+    name:     React.PropTypes.string,
     interval: React.PropTypes.number,
-    max: React.PropTypes.number,
-    current: React.PropTypes.number
+    max:      React.PropTypes.number,
+    current:  React.PropTypes.number
   }
 
   constructor () {
@@ -68,23 +68,23 @@ class AnimationContainer extends React.Component {
   }
 
   start() {
-    return this.props.dispatch(startAnimation());
+    return this.props.dispatch(startAnimation(this.props.name));
   }
 
   pause () {
-    return this.props.dispatch(pauseAnimation());
+    return this.props.dispatch(pauseAnimation(this.props.name));
   }
 
   reset () {
-    return this.props.dispatch(resetAnimation());
+    return this.props.dispatch(resetAnimation(this.props.name));
   }
 
   stepForward () {
-    return this.props.dispatch(stepAnimationForward());
+    return this.props.dispatch(stepAnimationForward(this.props.name));
   }
 
   stepBack () {
-    return this.props.dispatch(stepAnimationBack());
+    return this.props.dispatch(stepAnimationBack(this.props.name));
   }
 
   isAnimating () {

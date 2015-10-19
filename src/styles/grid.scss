@@ -22,11 +22,11 @@
   float: left;
 }
 
-.cell-role-empty {
+.cell {
   background-color: ghostwhite;
 }
 
-.cell-role-wall {
+.cell-wall {
   background-color: gainsboro;
 }
 
@@ -38,7 +38,7 @@
   background-color: honeydew;
 }
 
-.cell-role-start {
+.cell-start {
   background-color: red;
 }
 

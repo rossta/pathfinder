@@ -1,75 +1,79 @@
-export function pauseAnimation() {
+export function pauseAnimation(name) {
   return (dispatch, getState) => {
-    const interval = getState().getIn(['animation', 'breadthFirstSearch']);
+    const interval = getState().getIn([name, 'interval']);
     if (interval) {
       clearInterval(interval);
     }
     dispatch({
-      type: 'PAUSE_ANIMATION'
+      type: 'PAUSE_ANIMATION',
+      name
     });
   };
 }
 
-export function stepAnimationForward() {
+export function stepAnimationForward(name) {
   return (dispatch, getState) => {
-    const state = getState();
+    const state = getState().get(name);
     if (state.get('current') && state.get('frontier').isEmpty()) {
-      dispatch(pauseAnimation());
+      dispatch(pauseAnimation(name));
     } else {
       dispatch({
-        type: 'STEP_ANIMATION_FORWARD'
+        type: 'STEP_ANIMATION_FORWARD',
+        name
       });
     }
   };
 }
 
-export function stepAnimationBack() {
+export function stepAnimationBack(name) {
   return (dispatch, getState) => {
-    const state = getState();
-    if (!state.get('frontier').isEmpty()) {
+    if (!getState().getIn([name, 'frontier']).isEmpty()) {
       dispatch({
-        type: 'STEP_ANIMATION_BACK'
+        type: 'STEP_ANIMATION_BACK',
+        name
       });
     }
   };
 }
 
-export function startAnimation() {
+export function startAnimation(name) {
   return (dispatch) => {
-    dispatch(pauseAnimation());
+    dispatch(pauseAnimation(name));
 
     const interval = setInterval(() => {
-      dispatch(stepAnimationForward());
+      dispatch(stepAnimationForward(name));
     });
 
     dispatch({
-      type : 'START_ANIMATION',
-      interval
+      type: 'START_ANIMATION',
+      interval,
+      name
     });
 
-    dispatch(stepAnimationForward());
+    dispatch(stepAnimationForward(name));
   };
 }
 
-export function resetAnimation() {
+export function resetAnimation(name) {
   return (dispatch) => {
-    dispatch(pauseAnimation());
+    dispatch(pauseAnimation(name));
 
     dispatch({
-      type: 'RESET_ANIMATION'
+      type: 'RESET_ANIMATION',
+      name
     });
   };
 }
 
 export function toggleCell(coordinates) {
   return {
-    type : 'TOGGLE_CELL',
+    type: 'TOGGLE_CELL',
     coordinates
   };
 }
 
 export function printGrid() {
   return {
-    type : 'PRINT_GRID'
+    type: 'PRINT_GRID'
   };
 }

@@ -19,19 +19,8 @@ export default class Grid extends React.Component {
     super();
   }
 
-  cellRole (coords) {
-    const { start, walls } = this.props;
-    if (walls.includes(coords)) {
-      return 'wall';
-    }
-    if (start.equals(coords)) {
-      return 'start';
-    }
-    return 'empty';
-  }
-
   render () {
-    const {grid, toggleCell, visited, frontier} = this.props;
+    const {grid, toggleCell, visited, frontier, start, walls} = this.props;
 
     return (
       <div className="grid-container">
@@ -43,7 +32,8 @@ export default class Grid extends React.Component {
               toggleCell={toggleCell}
               col={col}
               row={row}
-              role={this.cellRole(coords)}
+              isStart={start.equals(coords)}
+              isWall={walls.includes(coords)}
               onFrontier={frontier.includes(coords)}
               wasVisited={visited.includes(coords)}
               key={`cell-${row}-${col}`} />

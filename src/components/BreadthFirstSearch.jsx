@@ -7,24 +7,25 @@ import * as actions from '../actions';
 import AnimationContainer from 'components/AnimationContainer';
 import Grid from 'components/Grid';
 
-const mapStateToProps = (state) => ({
-  animation: state.get('animation'),
-  frontier:  state.get('frontier'),
-  grid:      state.get('grid'),
-  start:     state.get('start'),
-  visited:   state.get('visited'),
-  walls:     state.get('walls'),
+const BFS = 'BFS';
 
-  breadthFirstSearch: state.get('breadthFirstSearch')
+const mapStateToProps = (state) => ({
+  interval:  state.getIn([BFS, 'interval']),
+  frontier:  state.getIn([BFS, 'frontier']),
+  grid:      state.getIn([BFS, 'grid']),
+  start:     state.getIn([BFS, 'start']),
+  visited:   state.getIn([BFS, 'visited']),
+  walls:     state.getIn([BFS, 'walls'])
 });
 
 export class BreadthFirstSearch extends React.Component {
   static propTypes = {
     animation: React.PropTypes.instanceOf(Map),
-    children: React.PropTypes.element,
-    dispatch: React.PropTypes.func,
-    grid: React.PropTypes.instanceOf(List),
-    visited: React.PropTypes.instanceOf(OrderedSet)
+    children:  React.PropTypes.element,
+    dispatch:  React.PropTypes.func,
+    grid:      React.PropTypes.instanceOf(List),
+    visited:   React.PropTypes.instanceOf(OrderedSet),
+    interval:  React.PropTypes.number
   }
 
   constructor () {
@@ -35,7 +36,8 @@ export class BreadthFirstSearch extends React.Component {
     const animation = {
       max: this.props.grid.count(),
       current: this.props.visited.count(),
-      interval: this.props.animation.get('breadthFirstSearch')
+      interval: this.props.interval,
+      name: BFS
     };
 
     return (
