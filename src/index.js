@@ -10,7 +10,8 @@ import { resetAnimation } from './actions';
 const target = document.getElementById('root');
 const store  = configureStore(initialState());
 
-store.dispatch(resetAnimation('BFS'));
+store.dispatch(resetAnimation('BFSAnimation'));
+store.dispatch(resetAnimation('BFSStepper'));
 
 // const node = <Root routerHistory={createBrowserHistory()} store={store}/>;
 const node = <Root store={store}/>;

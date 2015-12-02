@@ -1,9 +1,11 @@
 import bfs from 'reducers/bfs';
 
-const BFS = 'BFS';
+const BFSAnimation = 'BFSAnimation';
+const BFSStepper = 'BFSStepper';
 
 export default function reducer(state = Map(), action) {
   return state.merge({
-    [BFS]: bfs(state.get(BFS), action)
+    [BFSAnimation]: bfs(state.get(BFSAnimation), action),
+    [BFSStepper]: bfs(state.get(BFSStepper), action)
   });
 }

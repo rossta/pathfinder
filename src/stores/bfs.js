@@ -16,7 +16,8 @@ function createCells(rows, cols) {
   }, []);
 }
 
-export default function bfs({ rows = ROWS, cols = COLS } = {}) {
+export default function bfs({ rows = ROWS, cols = COLS, walls } = settings) {
+  console.log('initial state', rows, cols);
   const start     = List([Math.floor(rows/2), 1]);
   const visited   = OrderedSet();
   const frontier  = OrderedSet();
@@ -24,7 +25,8 @@ export default function bfs({ rows = ROWS, cols = COLS } = {}) {
   const history   = Map();
   const cells     = fromJS(createCells(rows, cols));
   const grid      = cells;
-  const walls     = Set(fromJS(DEFAULT_WALLS));
+
+  walls = walls || Set(fromJS(DEFAULT_WALLS));
 
   return Map({
     grid,
